@@ -11,8 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{97645F4F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{D7442083-957E-4D44-9121-844F8D62353E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "share", "share", "{8EFC5842-4BDC-482B-B830-294B28A2FDAF}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решения", "Элементы решения", "{BD54309A-FC87-4C24-880F-92E7E31F84BE}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md

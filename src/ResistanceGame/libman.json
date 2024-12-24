@@ -1,0 +1,22 @@
+{
+  "version": "3.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "jquery@3.7.1",
+      "destination": "wwwroot/lib/jquery/"
+    },
+    {
+      "library": "bootstrap@5.3.3",
+      "destination": "wwwroot/lib/bootstrap/"
+    },
+    {
+      "library": "font-awesome@6.7.2",
+      "destination": "wwwroot/lib/font-awesome/"
+    },
+    {
+      "library": "htmx@2.0.4",
+      "destination": "wwwroot/lib/htmx/"
+    }
+  ]
+}
