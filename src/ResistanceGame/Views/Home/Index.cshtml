@@ -1,21 +1,16 @@
-﻿@{
-    ViewData["Title"] = "Главная";
+﻿@model RegistrationWebModel
+@{
+    ViewBag.Title = "Главная";
 }
 
 <div class="my-4 p-5 bg-secondary text-white rounded">
     <h1 class="text-center">Сопротивление</h1>
     <p>
-        Настольная игра
+        Настольная онлайн-игра "Сопротивление".
     </p>
+
 </div>
 
-<div>
-    <button class="btn btn-success mb-3"
-            hx-get="/home/message"
-            hx-target="#message">
-        Получить сообщение
-    </button>
-
-    <div id="message">
-    </div>
+<div class="p-2 bg-light border rounded">
+    <partial name="Partial/RegistrationPartial" model="Model" />
 </div>

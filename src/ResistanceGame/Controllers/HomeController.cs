@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using ResistanceGame.Web.Hypermedia;
+using ResistanceGame.Web.Models;
 
 namespace ResistanceGame.Controllers;
 
@@ -9,8 +11,16 @@ public class HomeController : Controller
         return View();
     }
 
-    public string Message()
+    [HttpPost]
+    public IActionResult Registration(RegistrationWebModel model)
     {
-        return "Привет, Гипермедиа!";
+        var hypermedia = new RegistrationHypermedia(Request, ModelState, model);
+
+        if (hypermedia.IsHtmx) return PartialView("Partial/RegistrationPartial", model);
+        if (hypermedia.IsInvalid) return View("Index", model);
+
+        var id = hypermedia.RegisterNewMember();
+
+        return RedirectToAction("Index", "Prepare", new { id });
     }
 }
