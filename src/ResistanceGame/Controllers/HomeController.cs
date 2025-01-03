@@ -21,6 +21,6 @@ public class HomeController : Controller
 
         var id = hypermedia.RegisterNewMember();
 
-        return RedirectToAction("Index", "Prepare", new { id });
+        return RedirectToAction("Index", "Wait", new { id });
     }
 }
