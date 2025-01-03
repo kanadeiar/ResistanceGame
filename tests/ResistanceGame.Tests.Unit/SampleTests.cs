@@ -5,7 +5,7 @@ using Moq;
 
 namespace ResistanceGame.Tests.Unit;
 
-public class SharedTests
+public class SampleTests
 {
     [Fact(DisplayName = "Пример простого теста")]
     public void TestSample()
