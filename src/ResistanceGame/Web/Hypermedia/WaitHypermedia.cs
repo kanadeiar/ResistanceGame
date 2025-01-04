@@ -25,6 +25,14 @@ public class WaitHypermedia
         _current = PlayersRepository.GetById(_id);
     }
 
+    public void SwitchReady()
+    {
+        if (_current == null) return;
+
+        _current.IsReady = !_current.IsReady;
+        PlayersRepository.UpNeedUpdate();
+    }
+
     public WaitWebModel Model()
     {
         return new WaitWebModel

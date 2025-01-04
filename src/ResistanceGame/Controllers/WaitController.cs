@@ -25,4 +25,12 @@ public class WaitController : Controller
 
         return View(hypermedia.Model());
     }
+
+    public IActionResult SwitchReady(int id)
+    {
+        var hypermedia = new WaitHypermedia(Request, id);
+        hypermedia.SwitchReady();
+
+        return PartialView("Partial/ReadyPartial", hypermedia.Model());
+    }
 }
