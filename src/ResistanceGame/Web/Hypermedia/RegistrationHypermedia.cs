@@ -11,7 +11,7 @@ public class RegistrationHypermedia
     private readonly ModelStateDictionary _modelState;
     private readonly RegistrationWebModel _model;
 
-    public bool IsHtmx => _request.IsHtmx();
+    public bool IsHypermedia => _request.IsHtmx();
 
     public bool IsInvalid => !_modelState.IsValid;
 

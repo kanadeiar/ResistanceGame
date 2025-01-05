@@ -19,3 +19,18 @@
         }
     </tbody>
 </table>
+
+@if (Model.IsMayBeStart)
+{
+    <button class="btn btn-primary"
+            hx-get hx-action="Start" 
+            hx-route-id="@Model.Id"
+            hx-swap="none">
+        Старт игры
+    </button>
+}
+else
+{
+    <p>В игре должно быть зарегистрировано от 5 до 10 игроков и все должны быть готовы к игре.</p>
+}
+

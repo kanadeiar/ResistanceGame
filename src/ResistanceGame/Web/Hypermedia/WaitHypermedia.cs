@@ -11,11 +11,18 @@ public class WaitHypermedia
     private readonly HttpRequest _request;
     private readonly Player? _current;
 
-    public int Id => _id;
-
     public bool IsNotFound => _current is null;
 
-    public bool IsHtmx => _request.IsHtmx();
+    public bool IsHypermedia => _request.IsHtmx();
+
+    public bool IsMayBeStart =>
+        PlayersRepository.All.Count() >= 3 &&
+        PlayersRepository.All.Count() <= 10 &&
+        PlayersRepository.All.All(p => p.IsReady) &&
+        !IsGameStarted;
+
+    public bool IsGameStarted =>
+        PlayersRepository.All.Any(p => p.IsPlay);
 
     public WaitHypermedia(HttpRequest request, int id)
     {
@@ -30,7 +37,17 @@ public class WaitHypermedia
         if (_current == null) return;
 
         _current.IsReady = !_current.IsReady;
-        PlayersRepository.UpNeedUpdate();
+        PlayersRepository.SetNeedUpdate();
+    }
+
+    public void Start()
+    {
+        if (!IsMayBeStart) return;
+        foreach (var each in PlayersRepository.All)
+        {
+            each.IsPlay = true;
+        }
+        PlayersRepository.SetNeedUpdate();
     }
 
     public WaitWebModel Model()
@@ -40,6 +57,7 @@ public class WaitHypermedia
             Id = _id,
             Current = _current ?? new Player(),
             All = PlayersRepository.All,
+            IsMayBeStart = IsMayBeStart,
         };
     }
 

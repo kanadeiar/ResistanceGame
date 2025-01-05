@@ -16,7 +16,7 @@ public class HomeController : Controller
     {
         var hypermedia = new RegistrationHypermedia(Request, ModelState, model);
 
-        if (hypermedia.IsHtmx) return PartialView("Partial/RegistrationPartial", model);
+        if (hypermedia.IsHypermedia) return PartialView("Partial/RegistrationPartial", model);
         if (hypermedia.IsInvalid) return View("Index", model);
 
         var id = hypermedia.RegisterNewMember();
