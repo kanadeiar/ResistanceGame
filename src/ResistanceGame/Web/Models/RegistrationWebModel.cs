@@ -11,15 +11,9 @@ public class RegistrationWebModel
     [DisplayName("Имя")]
     [Required(ErrorMessage = "Пожалуйста, введите ваше имя")]
     [StringLength(30, ErrorMessage = "Имя должно быть короче 30 символов")]
-    public string? Name { get; set; }
+    public string? Name { get; init; }
 
-    public Player Map()
-    {
-        return new Player
-        {
-            Name = Name,
-        };
-    }
+    public Player Map() => Player.Create(Name);
 
     public void Validate(ModelStateDictionary modelState)
     {

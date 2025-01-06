@@ -2,8 +2,16 @@
 
 public class Player
 {
+    public static Player Create(string? name)
+    {
+        return new Player
+        {
+            Name = name,
+        };
+    }
+
     public int Id { get; set; }
-    public string? Name { get; init; }
+    public string? Name { get; private init; }
     public bool IsReady { get; set; }
     public bool IsPlay { get; set; }
     public bool IsNeedUpdate { get; set; }

@@ -15,7 +15,7 @@ public class WaitHypermedia
 
     public bool IsHypermedia => _request.IsHtmx();
 
-    public bool IsMayBeStart =>
+    private bool isMayBeStart =>
         PlayersRepository.All.Count() >= 3 &&
         PlayersRepository.All.Count() <= 10 &&
         PlayersRepository.All.All(p => p.IsReady) &&
@@ -42,7 +42,7 @@ public class WaitHypermedia
 
     public void Start()
     {
-        if (!IsMayBeStart) return;
+        if (!isMayBeStart) return;
         foreach (var each in PlayersRepository.All)
         {
             each.IsPlay = true;
@@ -50,16 +50,7 @@ public class WaitHypermedia
         PlayersRepository.SetNeedUpdate();
     }
 
-    public WaitWebModel Model()
-    {
-        return new WaitWebModel
-        {
-            Id = _id,
-            Current = _current ?? new Player(),
-            All = PlayersRepository.All,
-            IsMayBeStart = IsMayBeStart,
-        };
-    }
+    public WaitWebModel Model() => WaitWebModel.Create(_id, _current, isMayBeStart);
 
     public bool HasOldData()
     {
