@@ -14,5 +14,8 @@ public class Player
     public string? Name { get; private init; }
     public bool IsReady { get; set; }
     public bool IsPlay { get; set; }
+
+    public PlayerRole Role { get; set; } = PlayerRole.None;
+
     public bool IsNeedUpdate { get; set; }
 }

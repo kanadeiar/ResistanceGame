@@ -4,17 +4,17 @@ namespace ResistanceGame.Web.Models;
 
 public class GameWebModel
 {
-    public static GameWebModel Create(int id, Player? current, int counter)
+    public static GameWebModel Create(int id, Player? current, bool isLeader)
     {
         return new GameWebModel
         {
             Id = id,
             Current = current ?? new(),
-            Counter = counter
+            IsLeader = isLeader,
         };
     }
 
     public int Id { get; init; }
     public required Player Current { get; init; }
-    public int Counter { get; init; }
+    public bool IsLeader { get; init; }
 }
