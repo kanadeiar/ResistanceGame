@@ -18,7 +18,8 @@ public class WaitController : Controller
         }
         if (hypermedia.IsGameStarted)
         {
-            Response.Headers.Add("hx-redirect", Url.Action("Index", "Game", new { id }));
+            Response.Htmx(h => h.Redirect(Url.Action("Index", "Game", new { id })!));
+            return NoContent();
         }
 
         if (hypermedia.IsHypermedia)

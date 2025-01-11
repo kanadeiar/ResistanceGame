@@ -4,4 +4,6 @@
 
 Role: @Model.Current.Role
 
-Leader: @Model.IsLeader
+LeaderName: @Model.Leader.Name
+
+Leader: @(Model.Leader.Id == Model.Current.Id)

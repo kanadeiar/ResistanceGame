@@ -10,10 +10,10 @@ public enum PlayerRole
 public enum GameState
 {
     Init,
-    SelectLeader,
     SelectTeam,
     VoteOfTeam,
     Execute,
     Result,
     Final,
+    End,
 }

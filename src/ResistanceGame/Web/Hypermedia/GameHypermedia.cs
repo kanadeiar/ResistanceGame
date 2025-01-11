@@ -19,6 +19,12 @@ public class GameHypermedia
 
     public bool IsHypermedia => _request.IsHtmx();
 
+    public bool IsSelectTeam => _game == GameState.SelectTeam;
+
+    public bool IsLeader => _leaderId == _current?.Id;
+
+    public bool IsEnd => _game == GameState.End;
+
     public GameHypermedia(HttpRequest request, int id)
     {
         _request = request;
@@ -28,12 +34,13 @@ public class GameHypermedia
         if (_game == GameState.Init)
         {
             _game = GameState.SelectTeam;
-            Init();
-            SelectLeader();
+            InitNewGame();
+            SelectRandomLeader();
+            PlayersRepository.SetNeedUpdate();
         }
     }
 
-    private void Init()
+    private void InitNewGame()
     {
         var all = PlayersRepository.All.ToArray();
         foreach (var each in PlayersRepository.All)
@@ -58,7 +65,7 @@ public class GameHypermedia
         }
     }
 
-    private void SelectLeader()
+    private void SelectRandomLeader()
     {
         var all = PlayersRepository.All.ToArray();
         var newLeaderId = -1;
@@ -71,7 +78,7 @@ public class GameHypermedia
         _leaderId = newLeaderId;
     }
 
-    public GameWebModel Model() => GameWebModel.Create(_id, _current, _leaderId == _current.Id);
+    public GameWebModel Model() => GameWebModel.Create(_id, _current, PlayersRepository.GetById(_leaderId));
 
     public bool HasOldData()
     {

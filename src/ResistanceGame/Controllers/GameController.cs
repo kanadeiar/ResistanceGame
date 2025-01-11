@@ -16,13 +16,33 @@ public class GameController : Controller
             Response.Htmx(h => h.Redirect(Url.Action("Index", "Home")!));
             return NoContent();
         }
-        // game end - redirect to end
+        if (hypermedia.IsEnd)
+        {
+            if (!hypermedia.IsHypermedia) return RedirectToAction("Index", "End", new { id });
+
+            Response.Htmx(h => h.Redirect(Url.Action("Index", "End", new { id })!));
+            return NoContent();
+        }
 
         if (hypermedia.IsHypermedia)
         {
             if (hypermedia.HasOldData()) return NoContent();
 
-            return PartialView("Partial/GamePartial", hypermedia.Model());
+            if (hypermedia.IsSelectTeam)
+            {
+                if (hypermedia.IsLeader)
+                {
+                    return PartialView("Partial/SelectTeamPartial", hypermedia.Model());
+                }
+
+                return PartialView("Partial/NewLeaderInfoPartial", hypermedia.Model());
+            }
+
+            // vote of team - next or new leader
+
+            // execute work
+
+            // result of work
         }
 
         return View(hypermedia.Model());
