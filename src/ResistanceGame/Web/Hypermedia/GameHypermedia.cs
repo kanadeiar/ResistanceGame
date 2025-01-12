@@ -21,8 +21,6 @@ public class GameHypermedia
 
     public bool IsSelectTeam => _game == GameState.SelectTeam;
 
-    public bool IsLeader => _leaderId == _current?.Id;
-
     public bool IsEnd => _game == GameState.End;
 
     public GameHypermedia(HttpRequest request, int id)
@@ -45,7 +43,7 @@ public class GameHypermedia
         var all = PlayersRepository.All.ToArray();
         foreach (var each in PlayersRepository.All)
         {
-            each.Role = PlayerRole.Peace;
+            each.Role = PlayerRole.Resistance;
         }
 
         var spyCount = all.Length switch
@@ -78,7 +76,7 @@ public class GameHypermedia
         _leaderId = newLeaderId;
     }
 
-    public GameWebModel Model() => GameWebModel.Create(_id, _current, PlayersRepository.GetById(_leaderId));
+    public GameWebModel Model() => GameWebModel.Create(_id, _current, PlayersRepository.GetById(_leaderId), PlayersRepository.All);
 
     public bool HasOldData()
     {

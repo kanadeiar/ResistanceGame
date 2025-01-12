@@ -3,7 +3,7 @@
 public enum PlayerRole
 {
     None,
-    Peace,
+    Resistance,
     Spy,
 }
 

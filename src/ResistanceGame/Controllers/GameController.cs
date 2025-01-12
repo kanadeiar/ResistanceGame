@@ -30,12 +30,7 @@ public class GameController : Controller
 
             if (hypermedia.IsSelectTeam)
             {
-                if (hypermedia.IsLeader)
-                {
-                    return PartialView("Partial/SelectTeamPartial", hypermedia.Model());
-                }
-
-                return PartialView("Partial/NewLeaderInfoPartial", hypermedia.Model());
+                return PartialView("Partial/SelectTeamPartial", hypermedia.Model());
             }
 
             // vote of team - next or new leader
@@ -46,5 +41,13 @@ public class GameController : Controller
         }
 
         return View(hypermedia.Model());
+    }
+
+    public IActionResult ShowRole(int id, bool isShow = false)
+    {
+        var hypermedia = new GameHypermedia(Request, id);
+        var model = hypermedia.Model();
+        model.IsShow = !isShow;
+        return PartialView("Partial/RolePartial", model);
     }
 }

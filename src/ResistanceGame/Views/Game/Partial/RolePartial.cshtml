@@ -1,0 +1,30 @@
+﻿@model GameWebModel
+
+<p class="mb-0">Ваша роль:</p>
+
+<button class="btn btn-warning"
+        hx-get
+        hx-action="ShowRole"
+        hx-route-id="@Model.Id"
+        hx-route-isShow="@Model.IsShow"
+        hx-target="#role">
+    @(Model.IsShow ? "Скрыть роль" : "Показать роль")
+</button>
+
+@if (Model.IsShow)
+{
+    if (Model.Current.Role == PlayerRole.Resistance)
+    {
+        <strong><span class="text-success">Сопротивление.</span></strong>
+    }
+    else
+    {
+        var allSpy = Model.All.Where(p => p.Role == PlayerRole.Spy && p.Id != Model.Current.Id);
+        <strong><span class="text-danger">Шпион.</span></strong>
+        <span>Другие шпионы: <strong>@(string.Join(',', allSpy.Select(p => p.Name)))</strong></span>
+    }
+}
+else
+{
+    <span>Не сообщайте свою роль другому игроку.</span>
+}
