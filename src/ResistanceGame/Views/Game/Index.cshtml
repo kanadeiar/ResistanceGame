@@ -5,7 +5,15 @@
 
 <h4>@ViewBag.Title</h4>
 
-<p>Ваше имя: <strong>@Model.Current.Name</strong></p>
+<p class="my-0">Прогресс настольной игры:</p>
+
+<strong><p class="text-success my-0">1 этап - 1 игрок - Успех</p></strong>
+<strong><p class="text-danger my-0">2 этап - 1 игрок - Провал</p></strong>
+<p class="my-0">3 этап - 1 игрок</p>
+<p class="my-0">4 этап - 1 игрок</p>
+<p class="my-0">5 этап - 1 игрок</p>
+
+<p class="my-3">Ваше имя: <strong>@Model.Current.Name</strong></p>
 
 <div id="role">
     <partial name="Partial/RolePartial"/>

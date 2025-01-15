@@ -19,6 +19,6 @@ public class GameWebModel
     public required Player Current { get; init; }
     public required Player Leader { get; init; }
     public IEnumerable<Player> All { get; init; } = [];
-
+    public IEnumerable<Player> SelectedTeam { get; init; } = [];
     public bool IsShow { get; set; }
 }

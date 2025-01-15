@@ -4,15 +4,43 @@
 {
     <p>Вы новый лидер.</p>
 
-    <p>Сформируйте команду из участников игры для выполнения следующего задания.</p>
+    <p>Выберите участников игры для выполнения следующего задания.</p>
+    
+    <p>Вам нужно выбрать игроков в количестве 1 штук(и).</p>
 
+    @foreach (var each in Model.All.Where(p => p.Id != Model.Current.Id))
+    {
+        @if (Model.SelectedTeam.Contains(each))
+        {
+            <button class="btn btn-success">@each.Name - выбран</button>
+        }
+        else
+        {
+            <button class="btn btn-secondary">@each.Name</button>
+        }
+    }
 
+    <div class="mt-2">
+        <button class="btn btn-primary">Подтвердить выбор</button>
+    </div>
 }
 else
 {
     <p>Случайным образом был выбран новый лидер: <strong>@Model.Leader.Name</strong>.</p>
 
-    <p>Подождите, пока этот лидер сформирует новую команду для выполнения задания.</p>
+    <p>Подождите, пока лидер выбирает игроков для выполнения следующего задания.</p>
+
+    <p>Лидеру нужно выбрать игроков в количестве 1 штук(и).</p>
+
+    @if (Model.SelectedTeam.Any())
+    {
+        <p>Выбранные лидером игроки:</p>
+
+        @foreach (var each in Model.SelectedTeam)
+        {
+            <strong><p>@each.Name</p></strong>
+        }
+    }
 }
 
 
