@@ -5,13 +5,12 @@
 
 <h4>@ViewBag.Title</h4>
 
-<p class="my-0">Прогресс настольной игры:</p>
-
-<strong><p class="text-success my-0">1 этап - 1 игрок - Успех</p></strong>
-<strong><p class="text-danger my-0">2 этап - 1 игрок - Провал</p></strong>
-<p class="my-0">3 этап - 1 игрок</p>
-<p class="my-0">4 этап - 1 игрок</p>
-<p class="my-0">5 этап - 1 игрок</p>
+<div id="stages"
+     hx-get hx-action="ShowStage"
+     hx-route-id="@Model.Id"
+     hx-trigger="load, every 5s">
+    <partial name="Partial/StagesPartial" model="@(new StagesWebModel())"/>
+</div>
 
 <p class="my-3">Ваше имя: <strong>@Model.Current.Name</strong></p>
 
@@ -20,6 +19,7 @@
 </div>
 
 <div class="mt-3"
+     id="game"
      hx-get hx-action="Index"
      hx-route-id="@Model.Id"
      hx-trigger="load, every 1s">

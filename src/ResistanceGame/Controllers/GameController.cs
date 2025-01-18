@@ -43,6 +43,13 @@ public class GameController : Controller
         return View(hypermedia.Model());
     }
 
+    public IActionResult ShowStage(int id)
+    {
+        var hypermedia = new GameHypermedia(Request, id);
+        var model = hypermedia.StagesModel();
+        return PartialView("Partial/StagesPartial", model);
+    }
+
     public IActionResult ShowRole(int id, bool isShow = false)
     {
         var hypermedia = new GameHypermedia(Request, id);

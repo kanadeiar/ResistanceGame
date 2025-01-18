@@ -10,7 +10,7 @@
 
     @foreach (var each in Model.All.Where(p => p.Id != Model.Current.Id))
     {
-        @if (Model.SelectedTeam.Contains(each))
+        @if (Model.SelectTeam.Contains(each))
         {
             <button class="btn btn-success">@each.Name - выбран</button>
         }
@@ -32,13 +32,16 @@ else
 
     <p>Лидеру нужно выбрать игроков в количестве 1 штук(и).</p>
 
-    @if (Model.SelectedTeam.Any())
+    @if (Model.SelectTeam.All(p => p != null))
     {
         <p>Выбранные лидером игроки:</p>
 
-        @foreach (var each in Model.SelectedTeam)
+        @foreach (var each in Model.SelectTeam)
         {
-            <strong><p>@each.Name</p></strong>
+            if (each is { })
+            {
+                <strong><p>@each.Name</p></strong>
+            }
         }
     }
 }

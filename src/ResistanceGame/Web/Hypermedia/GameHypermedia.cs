@@ -15,6 +15,10 @@ public class GameHypermedia
     private readonly Player? _current;
     private static int _leaderId = -1;
 
+    private static GameStage[] _gameStages = new GameStage[5];
+    private static int _stage;
+    private static Player[] _selectTeam = [];
+
     public bool IsNotFound => _current is null;
 
     public bool IsHypermedia => _request.IsHtmx();
@@ -46,21 +50,31 @@ public class GameHypermedia
             each.Role = PlayerRole.Resistance;
         }
 
-        var spyCount = all.Length switch
-        {
-            5 => 2,
-            6 => 2,
-            7 => 3,
-            8 => 3,
-            9 => 3,
-            10 => 4,
-            _ => 1,
-        };
-        while (all.Count(p => p.Role == PlayerRole.Spy) < spyCount)
+        var data = GameData.Data[all.Length];
+
+        while (all.Count(p => p.Role == PlayerRole.Spy) < data.SpyCount)
         {
             var index = _random.Next(all.Length);
             all[index].Role = PlayerRole.Spy;
         }
+
+        for (var i = 0; i < 5; i++)
+        {
+            var count = data.Teams[i];
+            _gameStages[i] = new GameStage
+            {
+                Number = i + 1,
+                Count = count
+            };
+        }
+
+        InitTeam();
+    }
+
+    private void InitTeam()
+    {
+        var stage = _gameStages[_stage];
+        _selectTeam = new Player[stage.Count];
     }
 
     private void SelectRandomLeader()
@@ -76,7 +90,16 @@ public class GameHypermedia
         _leaderId = newLeaderId;
     }
 
-    public GameWebModel Model() => GameWebModel.Create(_id, _current, PlayersRepository.GetById(_leaderId), PlayersRepository.All);
+    public GameWebModel Model()
+    {
+        return GameWebModel.Create(_id, _current, PlayersRepository.GetById(_leaderId), PlayersRepository.All, _selectTeam);
+    }
+
+    public StagesWebModel StagesModel() =>
+        new()
+        {
+            GameStages = _gameStages,
+        };
 
     public bool HasOldData()
     {

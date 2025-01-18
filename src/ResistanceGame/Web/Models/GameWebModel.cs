@@ -4,14 +4,15 @@ namespace ResistanceGame.Web.Models;
 
 public class GameWebModel
 {
-    public static GameWebModel Create(int id, Player? current, Player? leader, IEnumerable<Player> all)
+    public static GameWebModel Create(int id, Player? current, Player? leader, IEnumerable<Player> all, IEnumerable<Player> selectTeam)
     {
         return new GameWebModel
         {
             Id = id,
             Current = current ?? new(),
             Leader = leader ?? new(),
-            All = all
+            All = all,
+            SelectTeam = selectTeam,
         };
     }
 
@@ -19,6 +20,6 @@ public class GameWebModel
     public required Player Current { get; init; }
     public required Player Leader { get; init; }
     public IEnumerable<Player> All { get; init; } = [];
-    public IEnumerable<Player> SelectedTeam { get; init; } = [];
+    public IEnumerable<Player> SelectTeam { get; init; } = [];
     public bool IsShow { get; set; }
 }
