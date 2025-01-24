@@ -21,5 +21,6 @@ public class GameWebModel
     public required Player Leader { get; init; }
     public IEnumerable<Player> All { get; init; } = [];
     public IEnumerable<Player> SelectTeam { get; init; } = [];
+    public bool IsMayBeConfirmTeam { get; set; }
     public bool IsShow { get; set; }
 }

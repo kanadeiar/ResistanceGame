@@ -17,13 +17,17 @@ public class GameHypermedia
 
     private static GameStage[] _gameStages = new GameStage[5];
     private static int _stage;
-    private static Player[] _selectTeam = [];
+    private static Player?[] _selectTeam = [];
 
     public bool IsNotFound => _current is null;
 
     public bool IsHypermedia => _request.IsHtmx();
 
     public bool IsSelectTeam => _game == GameState.SelectTeam;
+
+    public bool IsVoteOfTeam => _game == GameState.VoteOfTeam;
+
+    public bool MayBeConfirmTeam => _selectTeam.Length > 0 && _selectTeam.All(p => p is { });
 
     public bool IsEnd => _game == GameState.End;
 
@@ -90,9 +94,48 @@ public class GameHypermedia
         _leaderId = newLeaderId;
     }
 
+    public void SelectTeamMember(int memberId, bool isSelect)
+    {
+        var selectedMember = PlayersRepository.GetById(memberId);
+
+        if (isSelect)
+        {
+            for (var i = 0; i < _selectTeam.Length; i++)
+            {
+                if (_selectTeam[i] == selectedMember) break;
+                if (_selectTeam[i] is not null) continue;
+
+                _selectTeam[i] = selectedMember;
+                PlayersRepository.SetNeedUpdate();
+                break;
+            }
+        }
+        else
+        {
+            for (var i = 0; i < _selectTeam.Length; i++)
+            {
+                if (_selectTeam[i] != selectedMember) continue;
+
+                _selectTeam[i] = null;
+                PlayersRepository.SetNeedUpdate();
+                break;
+            }
+        }
+    }
+
+    public void ConfirmTeam()
+    {
+        if (!MayBeConfirmTeam) return;
+
+        _game = GameState.VoteOfTeam;
+        PlayersRepository.SetNeedUpdate();
+    }
+
     public GameWebModel Model()
     {
-        return GameWebModel.Create(_id, _current, PlayersRepository.GetById(_leaderId), PlayersRepository.All, _selectTeam);
+        var result = GameWebModel.Create(_id, _current, PlayersRepository.GetById(_leaderId), PlayersRepository.All, _selectTeam);
+        result.IsMayBeConfirmTeam = MayBeConfirmTeam;
+        return result;
     }
 
     public StagesWebModel StagesModel() =>

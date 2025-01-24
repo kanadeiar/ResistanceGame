@@ -33,6 +33,11 @@ public class GameController : Controller
                 return PartialView("Partial/SelectTeamPartial", hypermedia.Model());
             }
 
+            if (hypermedia.IsVoteOfTeam)
+            {
+                return PartialView("Partial/VoteOfTeamPartial", hypermedia.Model());
+            }
+
             // vote of team - next or new leader
 
             // execute work
@@ -56,5 +61,20 @@ public class GameController : Controller
         var model = hypermedia.Model();
         model.IsShow = !isShow;
         return PartialView("Partial/RolePartial", model);
+    }
+
+    public IActionResult SelectTeamMember(int id, int memberId, bool isSelect)
+    {
+        var hypermedia = new GameHypermedia(Request, id);
+        hypermedia.SelectTeamMember(memberId, isSelect);
+        return Index(id);
+    }
+
+    public void ConfirmTeam(int id)
+    {
+        var hypermedia = new GameHypermedia(Request, id);
+        if (!hypermedia.MayBeConfirmTeam) return;
+
+        hypermedia.ConfirmTeam();
     }
 }

@@ -1,0 +1,16 @@
+﻿@model GameWebModel
+
+<p>Голосование за команду</p>
+
+@if (Model.SelectTeam.All(p => p != null))
+{
+    <p>Выбранные лидером <strong>@Model.Leader.Name</strong> игроки:</p>
+
+    @foreach (var each in Model.SelectTeam)
+    {
+        if (each is { })
+        {
+            <strong><p>@each.Name</p></strong>
+        }
+    }
+}
