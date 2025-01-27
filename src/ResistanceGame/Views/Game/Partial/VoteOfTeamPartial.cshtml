@@ -14,3 +14,23 @@
         }
     }
 }
+
+@if (Model.IsMayBeVote)
+{
+    <button class="btn btn-success"
+            hx-get 
+            hx-action="VoteForTeam"
+            hx-route-id="@Model.Id"
+            hx-route-vote="true"
+            hx-swap="none">За</button>
+    <button class="btn btn-danger ml-1"
+            hx-get 
+            hx-action="VoteForTeam"
+            hx-route-id="@Model.Id"
+            hx-route-vote="false"
+            hx-swap="none">Против</button>
+}
+else
+{
+    <p>Ожидайте голосования всех игроков</p>
+}

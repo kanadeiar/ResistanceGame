@@ -17,5 +17,7 @@ public class Player
 
     public PlayerRole Role { get; set; } = PlayerRole.None;
 
+    public bool? Vote { get; set; }
+
     public bool IsNeedUpdate { get; set; }
 }

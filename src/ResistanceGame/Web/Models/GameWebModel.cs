@@ -22,5 +22,9 @@ public class GameWebModel
     public IEnumerable<Player> All { get; init; } = [];
     public IEnumerable<Player> SelectTeam { get; init; } = [];
     public bool IsMayBeConfirmTeam { get; set; }
+    public bool IsMayBeVote { get; set; }
+    public bool IsVoteOfTeam { get; set; }
+    public bool IsShowResultOfVote { get; set; }
+    public bool IsTeamSuccess { get; set; }
     public bool IsShow { get; set; }
 }

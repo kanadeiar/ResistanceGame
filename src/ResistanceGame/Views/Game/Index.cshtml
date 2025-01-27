@@ -23,6 +23,18 @@
      hx-get hx-action="Index"
      hx-route-id="@Model.Id"
      hx-trigger="load, every 1s">
-    <partial name="Partial/SelectTeamPartial" model="Model"/>
+
+    @if (Model.IsVoteOfTeam)
+    {
+        <partial name="Partial/VoteOfTeamPartial" model="Model" />
+    }
+    else if (Model.IsShowResultOfVote)
+    {
+        <partial name="Partial/ShowResultOfVotePartial" model="Model"/>
+    }
+    else
+    {
+        <partial name="Partial/SelectTeamPartial" model="Model" />
+    }
 </div>
 

@@ -27,7 +27,19 @@ public class GameHypermedia
 
     public bool IsVoteOfTeam => _game == GameState.VoteOfTeam;
 
+    public bool IsShowResultOfVote => _game == GameState.ShowResultOfVote;
+    
     public bool MayBeConfirmTeam => _selectTeam.Length > 0 && _selectTeam.All(p => p is { });
+
+    public bool VoteForTeamComplete => _game == GameState.VoteOfTeam && PlayersRepository.All.All(p => p.Vote != null);
+    public bool IsTeamSuccess
+    {
+        get
+        {
+            var needCount = PlayersRepository.All.Count() / 2;
+            return PlayersRepository.All.Count(p => p.Vote == true) > needCount;
+        }
+    }
 
     public bool IsEnd => _game == GameState.End;
 
@@ -40,13 +52,18 @@ public class GameHypermedia
         if (_game == GameState.Init)
         {
             _game = GameState.SelectTeam;
-            InitNewGame();
-            SelectRandomLeader();
+            initNewGame();
+            selectRandomLeader();
             PlayersRepository.SetNeedUpdate();
+        }
+
+        if (VoteForTeamComplete)
+        {
+            _game = GameState.ShowResultOfVote;
         }
     }
 
-    private void InitNewGame()
+    private void initNewGame()
     {
         var all = PlayersRepository.All.ToArray();
         foreach (var each in PlayersRepository.All)
@@ -72,16 +89,16 @@ public class GameHypermedia
             };
         }
 
-        InitTeam();
+        initTeam();
     }
 
-    private void InitTeam()
+    private static void initTeam()
     {
         var stage = _gameStages[_stage];
         _selectTeam = new Player[stage.Count];
     }
 
-    private void SelectRandomLeader()
+    private static void selectRandomLeader()
     {
         var all = PlayersRepository.All.ToArray();
         var newLeaderId = -1;
@@ -131,10 +148,25 @@ public class GameHypermedia
         PlayersRepository.SetNeedUpdate();
     }
 
+    public void VoteOfTeam(bool vote)
+    {
+        if (!IsVoteOfTeam) return;
+
+        if (_current is { Vote: null })
+        {
+            _current.Vote = vote;
+            PlayersRepository.SetNeedUpdate();
+        }
+    }
+
     public GameWebModel Model()
     {
         var result = GameWebModel.Create(_id, _current, PlayersRepository.GetById(_leaderId), PlayersRepository.All, _selectTeam);
         result.IsMayBeConfirmTeam = MayBeConfirmTeam;
+        result.IsMayBeVote = _current?.Vote == null;
+        result.IsTeamSuccess = IsTeamSuccess;
+        result.IsVoteOfTeam = IsVoteOfTeam;
+        result.IsShowResultOfVote = IsShowResultOfVote;
         return result;
     }
 

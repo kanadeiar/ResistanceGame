@@ -12,6 +12,7 @@ public enum GameState
     Init,
     SelectTeam,
     VoteOfTeam,
+    ShowResultOfVote,
     Execute,
     Result,
     Final,
