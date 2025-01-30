@@ -37,26 +37,10 @@ else
     }
 }
 
-@* @if (Model.SelectTeam.All(p => p != null))
-{
-    <p>Выбранные лидером <strong>@Model.Leader.Name</strong> игроки:</p>
-
-    @foreach (var each in Model.SelectTeam)
-    {
-        if (each is { })
-        {
-            @if (each.Vote == true)
-            {
-                <strong class="text-success"><p>@each.Name - За</p></strong>
-            }
-            else
-            {
-                <strong class="text-danger"><p>@each.Name - Против</p></strong>
-            }
-        }
-    }
-} *@
-
-<button class="btn btn-primary">
+<button class="btn btn-success"
+        hx-get
+        hx-action="Continue"
+        hx-route-id="@Model.Id"
+        hx-swap="delete">
     Продолжить
 </button>

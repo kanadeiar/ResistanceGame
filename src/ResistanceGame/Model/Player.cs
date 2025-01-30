@@ -19,5 +19,7 @@ public class Player
 
     public bool? Vote { get; set; }
 
+    public bool Continue { get; set; }
+
     public bool IsNeedUpdate { get; set; }
 }

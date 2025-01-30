@@ -30,12 +30,19 @@ public static class PlayersRepository
         SetNeedUpdate();
     }
 
+    public static void SetNeedContinue()
+    {
+        foreach (var each in All)
+        {
+            each.Continue = false;
+        }
+    }
+
     public static void SetNeedUpdate()
     {
         foreach (var each in All)
         {
             each.IsNeedUpdate = true;
-
         }
     }
 }

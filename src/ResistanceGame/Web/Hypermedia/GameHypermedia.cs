@@ -26,12 +26,17 @@ public class GameHypermedia
     public bool IsSelectTeam => _game == GameState.SelectTeam;
 
     public bool IsVoteOfTeam => _game == GameState.VoteOfTeam;
-
-    public bool IsShowResultOfVote => _game == GameState.ShowResultOfVote;
     
     public bool MayBeConfirmTeam => _selectTeam.Length > 0 && _selectTeam.All(p => p is { });
 
     public bool VoteForTeamComplete => _game == GameState.VoteOfTeam && PlayersRepository.All.All(p => p.Vote != null);
+    
+    public bool IsShowResultOfVote => _game == GameState.ShowResultOfVote;
+
+    public bool IsAllIsContinue => PlayersRepository.All.All(p => p.Continue);
+
+    public bool IsExecute => _game == GameState.Execute;
+
     public bool IsTeamSuccess
     {
         get
@@ -60,6 +65,22 @@ public class GameHypermedia
         if (VoteForTeamComplete)
         {
             _game = GameState.ShowResultOfVote;
+            PlayersRepository.SetNeedContinue();
+        }
+
+        if (IsShowResultOfVote && IsAllIsContinue)
+        {
+            if (IsTeamSuccess)
+            {
+                _game = GameState.Execute;
+            }
+            else
+            {
+                initTeam();
+                selectRandomLeader();
+                _game = GameState.SelectTeam;
+            }
+            PlayersRepository.SetNeedUpdate();
         }
     }
 
@@ -96,17 +117,22 @@ public class GameHypermedia
     {
         var stage = _gameStages[_stage];
         _selectTeam = new Player[stage.Count];
+        foreach (var each in PlayersRepository.All)
+        {
+            each.Vote = null;
+            each.Continue = false;
+        }
     }
 
     private static void selectRandomLeader()
     {
         var all = PlayersRepository.All.ToArray();
         var newLeaderId = -1;
-        while (newLeaderId == _leaderId)
+        do
         {
             var index = _random.Next(all.Length);
             newLeaderId = all[index].Id;
-        }
+        } while (newLeaderId == _leaderId);
 
         _leaderId = newLeaderId;
     }
@@ -156,6 +182,14 @@ public class GameHypermedia
         {
             _current.Vote = vote;
             PlayersRepository.SetNeedUpdate();
+        }
+    }
+
+    public void Continue()
+    {
+        if (_current is not null)
+        {
+            _current.Continue = true;
         }
     }
 
