@@ -1,3 +1,42 @@
-﻿
-<p>Выполнение работы выбранной командой</p>
+﻿@model GameWebModel
+
+<p>Производтися выполнение выбранными участниками игры задания.</p>
+
+@if (Model.SelectTeam.Contains(Model.Current) && Model.Current.IsSuccess is null)
+{
+    <p>Выберите вариант выполнения задания:</p>
+
+    <button class="btn btn-success"
+            hx-get
+            hx-action="Execute"
+            hx-route-id="@Model.Id"
+            hx-route-isSuccess="true"
+            hx-swap="none">
+        Успех
+    </button>
+
+    @if (Model.Current.Role == PlayerRole.Spy)
+    {
+        <button class="btn btn-danger"
+                hx-get
+                hx-action="Execute"
+                hx-route-id="@Model.Id"
+                hx-route-isSuccess="false"
+                hx-swap="none">
+            Провал
+        </button>
+    }
+    else
+    {
+        <button class="btn btn-danger">
+            Провал
+        </button>
+    }
+}
+else
+{
+    <p>Подождите, пока выбранные участники игры выполняют задание.</p>
+}
+
+
 

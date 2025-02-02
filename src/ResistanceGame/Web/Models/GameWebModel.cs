@@ -26,5 +26,9 @@ public class GameWebModel
     public bool IsVoteOfTeam { get; set; }
     public bool IsShowResultOfVote { get; set; }
     public bool IsTeamSuccess { get; set; }
+    public bool IsExecute { get; set; }
+    public bool IsShowResultOfExecute { get; set; }
+    public bool IsExecuteIsBeSuccess { get; set; }
+
     public bool IsShow { get; set; }
 }

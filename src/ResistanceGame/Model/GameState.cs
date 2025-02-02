@@ -14,7 +14,7 @@ public enum GameState
     VoteOfTeam,
     ShowResultOfVote,
     Execute,
-    Result,
+    ShowResultOfExecute,
     Final,
     End,
 }

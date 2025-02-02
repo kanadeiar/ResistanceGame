@@ -3,11 +3,11 @@
 @if (Model.Leader == Model.Current)
 {
     <p>Вы новый лидер.</p>
-
-    <p>Выберите участников игры для выполнения следующего задания.</p>
     
     <p>Вам нужно выбрать игроков в количестве @Model.SelectTeam.Count() штук(и).</p>
-
+    
+    <p>Выберите участников игры для выполнения следующего задания:</p>
+    
     @foreach (var each in Model.All)
     {
         @if (Model.SelectTeam.Contains(each))

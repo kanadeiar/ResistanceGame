@@ -47,6 +47,12 @@ public class GameController : Controller
             {
                 return PartialView("Partial/ExecutePartial", hypermedia.Model());
             }
+
+            if (hypermedia.IsShowResultOfExecute)
+            {
+                return PartialView("Partial/ShowResultOfExecutePartial", hypermedia.Model());
+            }
+
             // vote of team - next or new leader
 
             // execute work
@@ -99,5 +105,13 @@ public class GameController : Controller
     {
         var hypermedia = new GameHypermedia(Request, id);
         hypermedia.Continue();
+    }
+
+    public void Execute(int id, bool isSuccess)
+    {
+        var hypermedia = new GameHypermedia(Request, id);
+        if (hypermedia is { IsExecute: false }) return;
+
+        hypermedia.Execute(isSuccess);
     }
 }

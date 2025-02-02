@@ -21,5 +21,7 @@ public class Player
 
     public bool Continue { get; set; }
 
+    public bool? IsSuccess { get; set; }
+
     public bool IsNeedUpdate { get; set; }
 }
