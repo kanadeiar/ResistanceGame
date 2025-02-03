@@ -2,7 +2,7 @@
 
 namespace ResistanceGame.Controllers;
 
-public class PrepareController : Controller
+public class EndController : Controller
 {
     public IActionResult Index(int id)
     {

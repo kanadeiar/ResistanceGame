@@ -1,0 +1,8 @@
+﻿@model WaitWebModel
+
+<button class="btn @(Model.Current.IsReady ? "btn-success" : "btn-danger")"
+        hx-get hx-action="SwitchReady"
+        hx-route-id="@Model.Id"
+        hx-swap="outerHTML">
+    @(Model.Current.IsReady ? "Готов к игре" : "Еще не готов")
+</button>

@@ -1,0 +1,75 @@
+﻿@model GameWebModel
+
+@if (Model.Leader == Model.Current)
+{
+    <p>Вы новый лидер.</p>
+    
+    <p>Вам нужно выбрать игроков в количестве @Model.SelectTeam.Count() штук(и).</p>
+    
+    <p>Выберите участников игры для выполнения следующего задания:</p>
+    
+    @foreach (var each in Model.All)
+    {
+        @if (Model.SelectTeam.Contains(each))
+        {
+            <button class="btn btn-success"
+                    hx-get
+                    hx-action="SelectTeamMember"
+                    hx-route-id="@Model.Id"
+                    hx-route-memberId="@each.Id"
+                    hx-route-isSelect="false"
+                    hx-target="#game">
+                @each.Name - выбран
+            </button>
+        }
+        else
+        {
+            <button class="btn btn-secondary"
+                    hx-get
+                    hx-action="SelectTeamMember"
+                    hx-route-id="@Model.Id"
+                    hx-route-memberId="@each.Id"
+                    hx-route-isSelect="true"
+                    hx-target="#game">
+                @each.Name
+            </button>
+        }
+    }
+
+    @if (Model.IsMayBeConfirmTeam)
+    {
+        <div class="mt-2">
+            <button class="btn btn-primary"
+                    hx-get
+                    hx-action="ConfirmTeam"
+                    hx-route-id="@Model.Id"
+                    hx-swap="none">
+                Подтвердить выбор
+            </button>
+        </div>
+    }
+}
+else
+{
+    <p>Случайным образом был выбран новый лидер: <strong>@Model.Leader.Name</strong>.</p>
+
+    <p>Подождите, пока лидер выбирает игроков для выполнения следующего задания.</p>
+
+    <p>Лидеру нужно выбрать игроков в количестве @Model.SelectTeam.Count() штук(и).</p>
+
+    @if (Model.SelectTeam.All(p => p != null))
+    {
+        <p>Выбранные лидером игроки:</p>
+
+        @foreach (var each in Model.SelectTeam)
+        {
+            if (each is { })
+            {
+                <strong><p>@each.Name</p></strong>
+            }
+        }
+    }
+}
+
+
+

@@ -1,0 +1,36 @@
+﻿@model GameWebModel
+
+<p>Голосование за команду</p>
+
+@if (Model.SelectTeam.All(p => p != null))
+{
+    <p>Выбранные лидером <strong>@Model.Leader.Name</strong> игроки:</p>
+
+    @foreach (var each in Model.SelectTeam)
+    {
+        if (each is { })
+        {
+            <strong><p>@each.Name</p></strong>
+        }
+    }
+}
+
+@if (Model.IsMayBeVote)
+{
+    <button class="btn btn-success"
+            hx-get 
+            hx-action="VoteForTeam"
+            hx-route-id="@Model.Id"
+            hx-route-vote="true"
+            hx-swap="none">За</button>
+    <button class="btn btn-danger ml-1"
+            hx-get 
+            hx-action="VoteForTeam"
+            hx-route-id="@Model.Id"
+            hx-route-vote="false"
+            hx-swap="none">Против</button>
+}
+else
+{
+    <p>Ожидайте голосования всех игроков</p>
+}

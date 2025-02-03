@@ -16,11 +16,11 @@ public class HomeController : Controller
     {
         var hypermedia = new RegistrationHypermedia(Request, ModelState, model);
 
-        if (hypermedia.IsHtmx) return PartialView("Partial/RegistrationPartial", model);
+        if (hypermedia.IsHypermedia) return PartialView("Partial/RegistrationPartial", model);
         if (hypermedia.IsInvalid) return View("Index", model);
 
         var id = hypermedia.RegisterNewMember();
 
-        return RedirectToAction("Index", "Prepare", new { id });
+        return RedirectToAction("Index", "Wait", new { id });
     }
 }

@@ -1,0 +1,18 @@
+﻿@model GameWebModel
+
+@if (Model.IsExecuteIsBeSuccess)
+{
+    <p class="text-success"><strong>Задание успешно выполненно!</strong></p>
+}
+else
+{
+    <p class="text-danger"><strong>Выполнение задания провалено!</strong></p>
+}
+
+<button class="btn btn-success"
+        hx-get
+        hx-action="Continue"
+        hx-route-id="@Model.Id"
+        hx-swap="delete">
+    Продолжить
+</button>

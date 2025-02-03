@@ -1,0 +1,28 @@
+﻿@model StagesWebModel
+
+<p class="my-0">Прогресс настольной игры:</p>
+
+@for (var i = 0; i < 5; i++)
+{
+    var each = Model.GameStages[i];
+    if (each?.IsSuccess is { } status)
+    {
+        if (status)
+        {
+            <strong><span class="text-success my-0 ml-2">@each.Number. - @each.Count игрок - Успех</span></strong>
+        }
+        else
+        {
+            <strong><span class="text-danger my-0 ml-2">@each.Number. - @each.Count игрок - Провал</span></strong>
+        }
+    }
+    else if (each is { })
+    {
+        <span class="my-0 ml-2">@each.Number - @each.Count игрок</span>
+    }
+    else
+    {
+        <span class="my-0 ml-2">1 - 0 игрок</span>
+    }
+}
+

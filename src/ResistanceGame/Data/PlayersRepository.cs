@@ -18,7 +18,7 @@ public static class PlayersRepository
     {
         player.Id = _lastId++;
         _players.Add(player);
-        UpNeedUpdate();
+        SetNeedUpdate();
         return player.Id;
     }
 
@@ -27,15 +27,22 @@ public static class PlayersRepository
         if (GetById(id) is not { } deleted) return;
 
         _players.Remove(deleted);
-        UpNeedUpdate();
+        SetNeedUpdate();
     }
 
-    public static void UpNeedUpdate()
+    public static void SetNeedContinue()
+    {
+        foreach (var each in All)
+        {
+            each.Continue = false;
+        }
+    }
+
+    public static void SetNeedUpdate()
     {
         foreach (var each in All)
         {
             each.IsNeedUpdate = true;
-
         }
     }
 }

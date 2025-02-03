@@ -1,0 +1,48 @@
+﻿@model GameWebModel
+@{
+    ViewBag.Title = "Игра";
+}
+
+<h4>@ViewBag.Title</h4>
+
+<div id="stages"
+     hx-get hx-action="ShowStage"
+     hx-route-id="@Model.Id"
+     hx-trigger="load, every 5s">
+    <partial name="Partial/StagesPartial" model="@(new StagesWebModel())"/>
+</div>
+
+<p class="my-3">Ваше имя: <strong>@Model.Current.Name</strong></p>
+
+<div id="role">
+    <partial name="Partial/RolePartial"/>
+</div>
+
+<div class="mt-3"
+     id="game"
+     hx-get hx-action="Index"
+     hx-route-id="@Model.Id"
+     hx-trigger="load, every 1s">
+
+    @if (Model.IsVoteOfTeam)
+    {
+        <partial name="Partial/VoteOfTeamPartial" model="Model"/>
+    }
+    else if (Model.IsShowResultOfVote)
+    {
+        <partial name="Partial/ShowResultOfVotePartial" model="Model"/>
+    }
+    else if (Model.IsExecute)
+    {
+        <partial name="Partial/ExecutePartial" model="Model"/>
+    }
+    else if (Model.IsShowResultOfExecute)
+    {
+        <partial name="Partial/ShowResultOfExecutePartial" model="Model"/>
+    }
+    else
+    {
+        <partial name="Partial/SelectTeamPartial" model="Model"/>
+    }
+</div>
+

@@ -1,0 +1,19 @@
+﻿@model WaitWebModel
+@{
+    ViewBag.Title = "Ожидание всех игроков";
+}
+
+<h4>@ViewBag.Title</h4>
+<p>Ожидание подключения всех игроков.</p>
+
+<div class="my-2">
+    <label>Ваша готовность к игре: </label>
+    <partial name="Partial/ReadyPartial" model="Model" />
+</div>
+
+<div class="mt-3"
+     hx-get hx-action="Index"
+     hx-route-id="@Model.Id"
+     hx-trigger="every 1s">
+    <partial name="Partial/WaitPartial" model="Model" />
+</div>

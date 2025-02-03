@@ -1,0 +1,46 @@
+﻿@model GameWebModel
+
+@if (Model.IsTeamSuccess)
+{
+    <p class="text-success"><strong>Команда утверждена</strong></p>
+}
+else
+{
+    <p class="text-danger"><strong>Команда отклонена</strong></p>
+}
+
+<p>Результаты голосования:</p>
+
+@foreach (var each in Model.All)
+{
+    @if (Model.SelectTeam.Contains(each))
+    {
+        @if (each.Vote == true)
+        {
+            <strong class="text-success"><p>@each.Name - В команде - Голос за</p></strong>
+        }
+        else
+        {
+            <strong class="text-danger"><p>@each.Name - В команде - Голос против</p></strong>
+        }
+    }
+    else
+    {
+        if (each.Vote == true)
+        {
+            <p>@each.Name - Голос за</p>
+        }
+        else
+        {
+            <p>@each.Name - Голос против</p>
+        }
+    }
+}
+
+<button class="btn btn-success"
+        hx-get
+        hx-action="Continue"
+        hx-route-id="@Model.Id"
+        hx-swap="delete">
+    Продолжить
+</button>

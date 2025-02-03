@@ -1,0 +1,36 @@
+﻿@model WaitWebModel
+
+<p>Все зарегистрированные игроки:</p>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr><th>Id</th><th>Имя</th><th>Готовность</th></tr>
+    </thead>
+    <tbody>
+        @foreach (var each in Model.All)
+        {
+            <tr>
+                <th scope="row" class="align-middle">@each.Id</th>
+                <td class="align-middle">@each.Name</td>
+                <td class="align-middle text-white @(each.IsReady ? "bg-success" : "bg-danger")">
+                    @(each.IsReady ? "Готов" : "Не готов")
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (Model.IsMayBeStart)
+{
+    <button class="btn btn-primary"
+            hx-get hx-action="Start" 
+            hx-route-id="@Model.Id"
+            hx-swap="none">
+        Старт игры
+    </button>
+}
+else
+{
+    <p>В игре должно быть зарегистрировано от 5 до 10 игроков и все должны быть готовы к игре.</p>
+}
+
