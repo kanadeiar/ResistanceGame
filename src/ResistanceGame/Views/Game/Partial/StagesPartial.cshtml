@@ -7,7 +7,14 @@
     var each = Model.GameStages[i];
     if (each?.IsSuccess is { } status)
     {
-        <strong><span class="text-success my-0 ml-2">@each.Number - @each.Count игрок - @(status ? "Успех" : "Провал")</span></strong>
+        if (status)
+        {
+            <strong><span class="text-success my-0 ml-2">@each.Number. - @each.Count игрок - Успех</span></strong>
+        }
+        else
+        {
+            <strong><span class="text-danger my-0 ml-2">@each.Number. - @each.Count игрок - Провал</span></strong>
+        }
     }
     else if (each is { })
     {

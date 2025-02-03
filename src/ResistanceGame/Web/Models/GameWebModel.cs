@@ -11,8 +11,8 @@ public class GameWebModel
             Id = id,
             Current = current ?? new(),
             Leader = leader ?? new(),
-            All = all,
-            SelectTeam = selectTeam,
+            All = all.ToArray(),
+            SelectTeam = selectTeam.ToArray(),
         };
     }
 
@@ -29,6 +29,7 @@ public class GameWebModel
     public bool IsExecute { get; set; }
     public bool IsShowResultOfExecute { get; set; }
     public bool IsExecuteIsBeSuccess { get; set; }
-
+    public bool IsFinal { get; set; }
+    public bool IsResistanceWin { get; set; }
     public bool IsShow { get; set; }
 }

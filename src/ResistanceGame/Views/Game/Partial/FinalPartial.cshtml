@@ -1,0 +1,19 @@
+﻿@model GameWebModel
+
+<p>Результаты игры:</p>
+
+@if (Model.IsResistanceWin)
+{
+    <p class="text-success"><strong>Сопротивление выиграло!</strong></p>
+}
+else
+{
+    <p class="text-danger"><strong>Выиграли шпионы!</strong></p>
+}
+
+<p>Настоящие роли игроков:</p>
+
+@foreach (var each in Model.All)
+{
+    <p>@each.Name - @(each.Role == PlayerRole.Resistance ? "Сопротивление" : "Шпион")</p>
+}

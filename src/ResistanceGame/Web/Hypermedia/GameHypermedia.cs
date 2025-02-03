@@ -19,6 +19,7 @@ public class GameHypermedia
     private static int _stage;
     private static bool? _lastIsSuccess;
     private static Player?[] _selectTeam = [];
+    private static bool? _isResistanceWin;
 
     public bool IsNotFound => _current is null;
 
@@ -41,6 +42,10 @@ public class GameHypermedia
     public bool IsShowResultOfExecute => _game == GameState.ShowResultOfExecute;
 
     public bool IsExecuteIsBeSuccess => _lastIsSuccess == true;
+
+    public bool IsFinal => _game == GameState.Final;
+
+    public bool IsResistanceWin => _isResistanceWin == true;
 
     public bool IsTeamSuccess
     {
@@ -94,10 +99,8 @@ public class GameHypermedia
 
         if (IsExecute && _selectTeam.All(p => p?.IsSuccess is not null))
         {
-            if (_selectTeam.All(p => p?.IsSuccess == true))
-            {
-                _lastIsSuccess = true;
-            }
+            _lastIsSuccess = _selectTeam.All(p => p?.IsSuccess == true);
+            
             _gameStages[_stage].IsSuccess = _lastIsSuccess;
             _stage++;
 
@@ -105,7 +108,25 @@ public class GameHypermedia
             PlayersRepository.SetNeedUpdate();
         }
 
-        // if (_gameStages.Count(p => p.IsSuccess == true) >= 3 || _gameStages.Count(p => p.IsSuccess == false) >= 3)
+        if (IsShowResultOfExecute && IsAllIsContinue)
+        {
+            foreach (var each in PlayersRepository.All)
+            {
+                each.Continue = false;
+            }
+            if (_gameStages.Count(p => p.IsSuccess == true) >= 3 || _gameStages.Count(p => p.IsSuccess == false) >= 3)
+            {
+                _isResistanceWin = _gameStages.Count(p => p.IsSuccess == true) >= 3;
+                _game = GameState.Final;
+            }
+            else
+            {
+                initTeam();
+                selectRandomLeader();
+                _game = GameState.SelectTeam;
+            }
+            PlayersRepository.SetNeedUpdate();
+        }
     }
 
     private void initNewGame()
@@ -227,7 +248,7 @@ public class GameHypermedia
 
     public GameWebModel Model()
     {
-        var result = GameWebModel.Create(_id, _current, PlayersRepository.GetById(_leaderId), PlayersRepository.All, _selectTeam);
+        var result = GameWebModel.Create(_id, _current, PlayersRepository.GetById(_leaderId), PlayersRepository.All, _selectTeam.ToArray());
         result.IsMayBeConfirmTeam = MayBeConfirmTeam;
         result.IsMayBeVote = _current?.Vote == null;
         result.IsTeamSuccess = IsTeamSuccess;
@@ -236,6 +257,8 @@ public class GameHypermedia
         result.IsExecute = IsExecute;
         result.IsShowResultOfExecute = IsShowResultOfExecute;
         result.IsExecuteIsBeSuccess = IsExecuteIsBeSuccess;
+        result.IsFinal = IsFinal;
+        result.IsResistanceWin = IsResistanceWin;
         return result;
     }
 

@@ -53,6 +53,11 @@ public class GameController : Controller
                 return PartialView("Partial/ShowResultOfExecutePartial", hypermedia.Model());
             }
 
+            if (hypermedia.IsFinal)
+            {
+                return PartialView("Partial/FinalPartial", hypermedia.Model());
+            }
+
             // vote of team - next or new leader
 
             // execute work
